@@ -7,9 +7,9 @@ wwwdata:
 nginx:
   container_name: nginx
   build: nginx
-#php56:
-#  container_name: php56
-#  build: php56
+php56:
+  container_name: php56
+  build: php56
 php70:
   container_name: php70
   build: php70

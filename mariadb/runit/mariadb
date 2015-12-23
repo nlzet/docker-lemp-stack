@@ -1,0 +1,13 @@
+#!/bin/sh
+. /etc/container_environment.sh
+
+exec 2>&1
+exec mysqld --basedir=/usr \
+          	--datadir=/var/lib/mysql \
+          	--plugin-dir=/usr/lib/mysql/plugin \
+          	--pid-file=/var/run/mysqld/mysqld.pid \
+          	--socket=/var/run/mysqld/mysqld.sock \
+          	--user=mysql \
+          	--bind-address=:: \
+            --port=3306 \
+            --init-file=/var/run/mysqld/grants.sql

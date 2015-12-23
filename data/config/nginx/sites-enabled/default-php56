@@ -1,30 +1,30 @@
-#upstream default-php56 {
-#    server php56:9002;
-#}
-#
-#server {
-#    listen 80;
-#    server_name __ php56.dev www.php56.dev;
-#
-#    index index.php;
-#    root /var/www/;
-#
-#    charset utf-8;
-#
-#    access_log /var/log/nginx/default-access.log;
-#    error_log  /var/log/nginx/default-error.log error;
-#
-#    location / {
-#        try_files $uri $uri/ =404;
-#    }
-#
-#    location ~ \.php$ {
-#        # try_files $uri =404;
-#        fastcgi_pass default-php56;
-#        fastcgi_split_path_info ^(.+\.php)(/.*)$;
-#        include fastcgi_params;
-#        fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
-#        fastcgi_param  HTTPS off;
-#    }
-#}
-#
+upstream default-php56 {
+    server php56:9002;
+}
+
+server {
+    listen 80;
+    server_name __ php56.dev www.php56.dev;
+
+    index index.php;
+    root /var/www/;
+
+    charset utf-8;
+
+    access_log /var/log/nginx/default-access.log;
+    error_log  /var/log/nginx/default-error.log error;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location ~ \.php$ {
+        # try_files $uri =404;
+        fastcgi_pass default-php56;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+        fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param  HTTPS off;
+    }
+}
+

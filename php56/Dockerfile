@@ -9,43 +9,19 @@ RUN \
   locale-gen en_US.UTF-8 && \
   export LANG=en_US.UTF-8 && \
   apt-get install -y nano wget curl python htop git locate zip unzip telnet ant zsh python-software-properties software-properties-common build-essential libpcre3-dev && \
-  add-apt-repository -y ppa:ondrej/php-7.0 && \
+  add-apt-repository -y ppa:ondrej/php5-5.6 && \
   add-apt-repository -y ppa:brightbox/ruby-ng && \
   apt-get update && \
   apt-get dist-upgrade -y && \
-  apt-get install -y php7.0-cli php7.0-fpm php7.0-mysql php7.0-pgsql php7.0-sqlite php7.0-curl php7.0-gd php7.0-intl php7.0-dev php7.0-imap php7.0-ldap xvfb libsqlite3-dev ruby2.2 ruby2.2-dev libxext6 xfonts-75dpi fontconfig libxrender1 xfonts-base
-
-# Install APCu and XDebug from source because we don't have pecl (yet) on php 7.0
-RUN \
-    echo 'Installing APCU' && \
-    git clone https://github.com/krakjoe/apcu && \
-    cd apcu && \
-    phpize && \
-    ./configure --with-php-config=/usr/bin/php-config && \
-    make && \
-    export TEST_PHP_ARGS='-n' && \
-    make test && \
-    make install && \
-    cd ..
-
-RUN \
-    echo 'Installing Xdebug' && \
-    wget http://xdebug.org/files/xdebug-2.4.0rc2.tgz && \
-    tar xzf xdebug-2.4.0rc2.tgz && \
-    cd xdebug-2.4.0RC2/ && \
-    phpize && \
-    ./configure --with-php-config=/usr/bin/php-config && \
-    make && \
-    export TEST_PHP_ARGS='-n' && \
-    make test && \
-    make install && \
-    cd ..
+  apt-get install -y php5-cli php5-fpm php5-mysql php5-pgsql php5-sqlite php5-curl php5-gd php5-gmp php5-mcrypt php5-memcached php5-imagick php5-intl php-pear php5-dev php5-xsl php5-imap php5-memcache php5-memcached php5-ldap xvfb libsqlite3-dev ruby2.2 ruby2.2-dev libxext6 xfonts-75dpi fontconfig libxrender1 xfonts-base && \
+  yes '' | pecl install xdebug && \
+  yes '' | pecl install apcu-4.0.7
 
 # Fix php session dir and error log
 RUN \
-  mkdir -p /var/lib/php/sessions && \
-  chown -R www-data:www-data /var/lib/php/sessions && \
-  chmod 0777 -R /var/lib/php/sessions/ && \
+  mkdir -p /var/lib/php5/sessions && \
+  chown -R www-data:www-data /var/lib/php5/sessions && \
+  chmod 0777 -R /var/lib/php5/sessions/ && \
   mkdir -p /var/log/php/ && \
   touch /var/log/php/error.log && \
   chmod 0755 /var/log/php/error.log && \
@@ -62,22 +38,22 @@ RUN \
 ENV HOME /root
 
 # PHP module configs
-ADD conf/mods-available/apcu.ini /etc/php/mods-available/apcu.ini
-ADD conf/mods-available/xdebug.ini /etc/php/mods-available/xdebug.ini
-ADD conf/mods-available/mailcatcher.ini /etc/php/mods-available/mailcatcher.ini
-ADD conf/mods-available/development.ini /etc/php/mods-available/development.ini
-ADD conf/mods-available/production.ini /etc/php/mods-available/production.ini
+ADD conf/mods-available/apcu.ini /etc/php5/mods-available/apcu.ini
+ADD conf/mods-available/xdebug.ini /etc/php5/mods-available/xdebug.ini
+ADD conf/mods-available/mailcatcher.ini /etc/php5/mods-available/mailcatcher.ini
+ADD conf/mods-available/development.ini /etc/php5/mods-available/development.ini
+ADD conf/mods-available/production.ini /etc/php5/mods-available/production.ini
 
 RUN \
-  phpdismod -v 7.0 xdebug && \
-  phpdismod -v 7.0 mailcatcher && \
-  phpdismod -v 7.0 apcu
+  php5dismod xdebug && \
+  php5dismod mailcatcher && \
+  php5dismod apcu
 
 # FPM startup script
 RUN \
   mkdir -p /run/php && \
   mkdir -p /etc/service/phpfpm && \
-  echo "#!/usr/bin/env bash\n\nphp-fpm7.0 -c /etc/php/7.0/fpm" > /etc/service/phpfpm/run && \
+  echo "#!/usr/bin/env bash\n\nphp5-fpm -c /etc/php5/fpm" > /etc/service/phpfpm/run && \
   chmod +x /etc/service/phpfpm/run
 
 # Composer + PHPUnit + Phing
@@ -107,13 +83,13 @@ RUN \
   wkhtmltopdf --version
 
 RUN \
-  sed -i "s/;date.timezone =.*/date.timezone = UTC/" /etc/php/7.0/fpm/php.ini && \
-  sed -i "s/;date.timezone =.*/date.timezone = UTC/" /etc/php/7.0/cli/php.ini && \
-  sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini && \
-  sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/cli/php.ini && \
-  sed -i "s/short_open_tag.*=.*/short_open_tag = On/" /etc/php/7.0/fpm/php.ini && \
-  sed -i "s/short_open_tag.*=.*/short_open_tag = On/" /etc/php/7.0/cli/php.ini && \
-  sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.0/fpm/php-fpm.conf
+  sed -i "s/;date.timezone =.*/date.timezone = UTC/" /etc/php5/fpm/php.ini && \
+  sed -i "s/;date.timezone =.*/date.timezone = UTC/" /etc/php5/cli/php.ini && \
+  sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php5/fpm/php.ini && \
+  sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php5/cli/php.ini && \
+  sed -i "s/short_open_tag.*=.*/short_open_tag = On/" /etc/php5/fpm/php.ini && \
+  sed -i "s/short_open_tag.*=.*/short_open_tag = On/" /etc/php5/cli/php.ini && \
+  sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php5/fpm/php-fpm.conf
 
 ADD my_init.d /etc/my_init.d
 

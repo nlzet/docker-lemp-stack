@@ -11,12 +11,27 @@ nginx:
     - ./data/config/nginx:/etc/nginx
     - ./data/log/nginx:/var/log/nginx
   links:
+    - php56
     - php70
   volumes_from:
     - wwwdata
   ports:
     - "80:80"
     - "443:443"
+  restart: always
+php56:
+  container_name: php56
+  build: php56
+  environment:
+    PHP_ENV: development
+  volumes:
+    - ./data/config/php/pool56/:/etc/php5/fpm/pool.d
+    - ./data/log/php56:/var/log/php
+  volumes_from:
+    - wwwdata
+  links:
+    - mariadb
+    - mailcatcher
   restart: always
 php70:
   container_name: php70
@@ -25,13 +40,23 @@ php70:
     PHP_ENV: development
   volumes:
     - ./data/config/php/pool70/:/etc/php/7.0/fpm/pool.d
+    - ./data/log/php70:/var/log/php
   volumes_from:
     - wwwdata
-  ports:
-    - "2224:22"
   links:
-#    - mariadb
+    - mariadb
     - mailcatcher
+  restart: always
+mariadb:
+  container_name: mariadb
+  build: mariadb
+  volumes:
+    - ./data/log/mariadb:/var/log/mysql
+    - ./data/mariadb:/var/lib/mysql
+  environment:
+    DB_ADMIN_PASS: pass
+  ports:
+    - "3306:3306"
   restart: always
 mailcatcher:
   container_name: mailcatcher
