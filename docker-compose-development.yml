@@ -1,0 +1,42 @@
+wwwdata:
+  container_name: wwwdata
+  build: docker/wwwdata
+  volumes:
+    - ./data/www:/var/www
+  restart: always
+nginx:
+  container_name: nginx
+  build: docker/nginx
+  volumes:
+    - ./config/nginx:/etc/nginx
+    - ./log/nginx:/var/log/nginx
+  links:
+    - php70
+  volumes_from:
+    - wwwdata
+  ports:
+    - "80:80"
+    - "443:443"
+  restart: always
+php70:
+  container_name: php70
+  build: docker/php70
+  environment:
+    PHP_ENV: development
+  volumes:
+    - ./config/php/pool70/:/etc/php/7.0/fpm/pool.d
+  volumes_from:
+    - wwwdata
+  ports:
+    - "2224:22"
+  links:
+#    - mariadb
+    - mailcatcher
+  restart: always
+mailcatcher:
+  container_name: mailcatcher
+  image: schickling/mailcatcher
+  ports:
+    - "1025:1025"
+    - "1080:1080"
+  restart: always

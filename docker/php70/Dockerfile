@@ -1,0 +1,130 @@
+FROM phusion/baseimage:latest
+
+ENV \
+  DEBIAN_FRONTEND noninteractive
+
+RUN \
+  apt-get update && \  
+  rm -f /etc/service/sshd/down && \
+  locale-gen en_US.UTF-8 && \
+  export LANG=en_US.UTF-8 && \
+  apt-get install -y nano wget curl python htop git locate zip unzip telnet ant zsh python-software-properties software-properties-common build-essential libpcre3-dev && \
+  add-apt-repository -y ppa:ondrej/php-7.0 && \
+  add-apt-repository -y ppa:brightbox/ruby-ng && \
+  apt-get update && \
+  apt-get dist-upgrade -y && \
+  apt-get install -y php7.0-cli php7.0-fpm php7.0-mysql php7.0-pgsql php7.0-sqlite php7.0-curl php7.0-gd php7.0-intl php7.0-dev php7.0-imap php7.0-ldap libsqlite3-dev ruby2.2 ruby2.2-dev
+
+RUN \
+    echo 'Installing APCU' && \
+    git clone https://github.com/krakjoe/apcu && \
+    cd apcu && \
+    phpize && \
+    ./configure --with-php-config=/usr/bin/php-config && \
+    make && \
+    export TEST_PHP_ARGS='-n' && \
+    make test && \
+    make install && \
+    cd ..
+
+RUN \
+    echo 'Installing Xdebug' && \
+    wget http://xdebug.org/files/xdebug-2.4.0rc2.tgz && \
+    tar xzf xdebug-2.4.0rc2.tgz && \
+    cd xdebug-2.4.0RC2/ && \
+    phpize && \
+    ./configure --with-php-config=/usr/bin/php-config && \
+    make && \
+    export TEST_PHP_ARGS='-n' && \
+    make test && \
+    make install && \
+    cd ..
+
+# Fix php session dir and error log
+RUN \
+  chmod 0777 -R /var/lib/php/sessions/ && \
+  touch /var/log/php_error.log && \
+  chmod 0755 /var/log/php_error.log && \
+  chown www-data:www-data /var/log/php_error.log
+
+# Install ruby dependencies, temporarily set HOME ENV to /home, because it fails in /root
+RUN \
+  ruby -v && \
+  gem install --no-ri --no-rdoc mailcatcher && \
+  gem install --no-ri --no-rdoc capifony && \
+  gem list
+
+ENV HOME /root
+
+# PHP module configs
+ADD conf/mods-available/apcu.ini /etc/php/mods-available/apcu.ini
+ADD conf/mods-available/xdebug.ini /etc/php/mods-available/xdebug.ini
+ADD conf/mods-available/mailcatcher.ini /etc/php/mods-available/mailcatcher.ini
+ADD conf/mods-available/development.ini /etc/php/mods-available/development.ini
+ADD conf/mods-available/production.ini /etc/php/mods-available/production.ini
+
+RUN \
+  phpdismod -v 7.0 xdebug && \
+  phpdismod -v 7.0 mailcatcher && \
+  phpdismod -v 7.0 apcu
+
+# FPM startup script
+RUN \
+  mkdir -p /run/php && \
+  mkdir -p /etc/service/phpfpm && \
+  echo "#!/usr/bin/env bash\n\nphp-fpm7.0 -c /etc/php/7.0/fpm" > /etc/service/phpfpm/run && \
+  chmod +x /etc/service/phpfpm/run
+
+# Composer + PHPUnit + Phing
+RUN \
+  curl -sS https://getcomposer.org/installer | php && \
+  mv composer.phar /usr/local/bin/composer && \
+  composer config -g github-oauth.github.com aeff6491f52163a011cba0b6b6286f5492e25ab6 && \
+  wget -qq -O phpunit.phar https://phar.phpunit.de/phpunit.phar && \
+  chmod +x phpunit.phar && \
+  mv phpunit.phar /usr/local/bin/phpunit && \
+  wget -qq http://www.phing.info/get/phing-latest.phar && \
+  chmod +x phing-latest.phar && \
+  mv phing-latest.phar /usr/local/bin/phing && \
+  php -v && \
+  phpunit --version && \
+  phing -v
+
+# WKHTMLTOPDF
+RUN \
+  apt-get install -y libxext6 python-software-properties xfonts-75dpi fontconfig libxrender1 xfonts-base && \
+  wget -qq http://download.gna.org/wkhtmltopdf/0.12/0.12.2.1/wkhtmltox-0.12.2.1_linux-trusty-amd64.deb && \
+  dpkg -i wkhtmltox-0.12.2.1_linux-trusty-amd64.deb && \
+  apt-get -f -y install && \
+  apt-get -y install xvfb && \
+  echo 'xvfb-run --server-args="-screen 0, 1024x768x24" /usr/local/bin/wkhtmltopdf $*' > /usr/bin/wkhtmltopdf.sh && \
+  chmod a+rx /usr/bin/wkhtmltopdf.sh && \
+  sudo ln -s /usr/bin/wkhtmltopdf.sh /usr/bin/wkhtmltopdf && \
+  wkhtmltopdf --version
+
+RUN \
+  sed -i "s/;date.timezone =.*/date.timezone = UTC/" /etc/php/7.0/fpm/php.ini && \
+  sed -i "s/;date.timezone =.*/date.timezone = UTC/" /etc/php/7.0/cli/php.ini && \
+  sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini && \
+  sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/cli/php.ini && \
+  sed -i "s/short_open_tag.*=.*/short_open_tag = On/" /etc/php/7.0/fpm/php.ini && \
+  sed -i "s/short_open_tag.*=.*/short_open_tag = On/" /etc/php/7.0/cli/php.ini && \
+  sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.0/fpm/php-fpm.conf
+
+ADD my_init.d /etc/my_init.d
+
+RUN \
+  apt-get clean && \
+  apt-get autoremove -y && \
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+ENV TERM xterm
+ENV PHP_ENV production
+
+# XDebug remote for development
+EXPOSE 9000
+
+# Remote ssh
+EXPOSE 22
+
+CMD ["/sbin/my_init"]
