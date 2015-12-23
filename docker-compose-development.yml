@@ -8,8 +8,8 @@ nginx:
   container_name: nginx
   build: nginx
   volumes:
-    - ./config/nginx:/etc/nginx
-    - ./log/nginx:/var/log/nginx
+    - ./data/config/nginx:/etc/nginx
+    - ./data/log/nginx:/var/log/nginx
   links:
     - php70
   volumes_from:
@@ -24,7 +24,7 @@ php70:
   environment:
     PHP_ENV: development
   volumes:
-    - ./config/php/pool70/:/etc/php/7.0/fpm/pool.d
+    - ./data/config/php/pool70/:/etc/php/7.0/fpm/pool.d
   volumes_from:
     - wwwdata
   ports:
