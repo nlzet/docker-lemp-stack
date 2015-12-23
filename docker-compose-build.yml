@@ -3,25 +3,25 @@
 #  build: docker/backup
 wwwdata:
   container_name: wwwdata
-  build: docker/wwwdata
+  build: wwwdata
 nginx:
   container_name: nginx
-  build: docker/nginx
+  build: nginx
 #php56:
 #  container_name: php56
-#  build: docker/php56
+#  build: php56
 php70:
   container_name: php70
-  build: docker/php70
+  build: php70
 #mariadb:
 #  container_name: mariadb
-#  build: docker/mariadb
+#  build: mariadb
 #memcached:
 #  container_name: memcached
-#  build: docker/memcached
+#  build: memcached
 #redis:
 #  container_name: redis
-#  build: docker/redis
+#  build: redis
 #mail:
 #  container_name: mail
-#  build: docker/postfix
+#  build: postfix
