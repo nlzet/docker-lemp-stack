@@ -13,9 +13,9 @@ php56:
 php70:
   container_name: php70
   build: php70
-#mariadb:
-#  container_name: mariadb
-#  build: mariadb
+mariadb:
+  container_name: mariadb
+  build: mariadb
 #memcached:
 #  container_name: memcached
 #  build: memcached
