@@ -79,21 +79,12 @@ Commands for building and developing the services:
     clear_images
     # Will run both 'clear_containers' and 'clear_images"
     clear_all
-
-clear_containers:
-	$(BIN_DOCKER) stop `$(BIN_DOCKER) ps -a -q` && $(BIN_DOCKER) rm `$(BIN_DOCKER) ps -a -q`
-
-clear_images:
-	$(BIN_DOCKER) rmi `$(BIN_DOCKER) images -q)`
-
-build:
-	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_BUILD) build
-
-build_dev:
-	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_BUILD_DEVELOPMENT) up -d
-
-build_prod:
-	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_BUILD_PRODUCTION) up -d
+    # Use the compose build file to build all containers, even unused containers for specific environments
+    build
+    # Build the services defined by the development compose config
+    build_dev
+    # Build the services defined by the production compose config
+    build_prod
 
 ### Launching containers
 
