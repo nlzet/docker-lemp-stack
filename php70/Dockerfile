@@ -73,12 +73,9 @@ RUN \
   phpdismod -v 7.0 mailcatcher && \
   phpdismod -v 7.0 apcu
 
-# FPM startup script
+# Create php pid location
 RUN \
-  mkdir -p /run/php && \
-  mkdir -p /etc/service/phpfpm && \
-  echo "#!/usr/bin/env bash\n\nphp-fpm7.0 -c /etc/php/7.0/fpm" > /etc/service/phpfpm/run && \
-  chmod +x /etc/service/phpfpm/run
+    mkdir -p /run/php
 
 # Composer + PHPUnit + Phing
 RUN \
@@ -115,8 +112,6 @@ RUN \
   sed -i "s/short_open_tag.*=.*/short_open_tag = On/" /etc/php/7.0/cli/php.ini && \
   sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.0/fpm/php-fpm.conf
 
-ADD my_init.d /etc/my_init.d
-
 RUN \
   apt-get clean && \
   apt-get autoremove -y && \
@@ -124,6 +119,10 @@ RUN \
 
 ENV TERM xterm
 ENV PHP_ENV production
+
+# Runit/init
+ADD my_init.d /etc/my_init.d
+ADD runit/php /etc/service/php/run
 
 # XDebug/ssh port
 EXPOSE 9000

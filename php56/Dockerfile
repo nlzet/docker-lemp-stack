@@ -49,13 +49,6 @@ RUN \
   php5dismod mailcatcher && \
   php5dismod apcu
 
-# FPM startup script
-RUN \
-  mkdir -p /run/php && \
-  mkdir -p /etc/service/phpfpm && \
-  echo "#!/usr/bin/env bash\n\nphp5-fpm -c /etc/php5/fpm" > /etc/service/phpfpm/run && \
-  chmod +x /etc/service/phpfpm/run
-
 # Composer + PHPUnit + Phing
 RUN \
   curl -sS https://getcomposer.org/installer | php && \
@@ -91,8 +84,6 @@ RUN \
   sed -i "s/short_open_tag.*=.*/short_open_tag = On/" /etc/php5/cli/php.ini && \
   sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php5/fpm/php-fpm.conf
 
-ADD my_init.d /etc/my_init.d
-
 RUN \
   apt-get clean && \
   apt-get autoremove -y && \
@@ -100,6 +91,10 @@ RUN \
 
 ENV TERM xterm
 ENV PHP_ENV production
+
+# Runit/init
+ADD my_init.d /etc/my_init.d
+ADD runit/php /etc/service/php/run
 
 # XDebug/ssh port
 EXPOSE 9000
