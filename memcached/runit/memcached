@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec /sbin/setuser memcache /usr/bin/memcached -v -m 64 -p 11211 -u nobody >>/var/log/memcached.log 2>&1

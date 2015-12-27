@@ -76,6 +76,12 @@ mailcatcher:
     - "1025:1025"
     - "1080:1080"
   restart: always
+memcached:
+  container_name: memcached
+  build: memcached
+  ports:
+    - "11211:11211"
+  restart: always
 redis:
   container_name: redis
   image: redis

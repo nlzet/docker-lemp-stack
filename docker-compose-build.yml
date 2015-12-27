@@ -16,9 +16,9 @@ php70:
 mariadb:
   container_name: mariadb
   build: mariadb
-#memcached:
-#  container_name: memcached
-#  build: memcached
+memcached:
+  container_name: memcached
+  build: memcached
 #mail:
 #  container_name: mail
 #  build: postfix
