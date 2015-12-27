@@ -93,6 +93,15 @@ ENV PHP_APCU_ENABLED false
 ENV PHP_XDEBUG_ENABLED false
 ENV PHP_MAILCATCHER_ENABLED false
 
+# Allow su www-data
+ADD conf/dot-bash-rc /home/www-data/.bashrc
+RUN \
+   chsh -s /bin/bash www-data && \
+   groupmod -g 1000 www-data && \
+   usermod -u 1000 www-data && \
+   chown -vR 1000:1000 /home/www-data/.bashrc && \
+   usermod -d /home/www-data/ www-data
+
 # Runit/init
 ADD my_init.d /etc/my_init.d
 ADD runit/php /etc/service/php/run
