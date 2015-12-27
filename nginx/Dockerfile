@@ -14,12 +14,11 @@ RUN \
   apt-get install -y vim wget curl nano && \
   apt-get install -y ca-certificates nginx && \
   chown -R www-data:www-data /var/lib/nginx && \
-  mkdir /etc/service/nginx && \
-  echo "#!/usr/bin/env bash\n\nnginx" > /etc/service/nginx/run && \
-  chmod +x /etc/service/nginx/run && \
   apt-get clean && \
   apt-get autoremove -y && \
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+ADD runit/nginx /etc/service/nginx/run
 
 VOLUME "/etc/nginx"
 VOLUME "/var/log/nginx"
