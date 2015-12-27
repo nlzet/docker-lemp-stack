@@ -4,14 +4,14 @@ For start, create a folder named custom/<service_name>. By example, let's say we
 
 In the root folder, create a folder `custom`, and in that folder create a folder `php70`. In the resulting folder you can create a file called `Dockerfile` with the following contents: (For more information about Dockerfiles see: https://docs.docker.com/engine/userguide/)
 
-    FROM nlzet/php70:latest
+    FROM kreable/php70:latest
     gem install capifony
     
-In the compose configuration file you are using, for example `docker-compose-development.yml`, change the following lines:
+In the compose configuration file you are using, for example `compose-up-development.yml`, change the following lines:
 
     php70:
       container_name: php70
-      image: nlzet/php70
+      image: kreable/php70
       
 To:
 

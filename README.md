@@ -40,15 +40,15 @@ In the root of the project there is a `Makefile`, if you are using an OS that su
 
 ### Launching containers
 
-The entire collection of containers is built to run as a development environment and (or) a production environment. The files `docker-compose-development.yml' and `docker-compose-production.yml` define the configuration for each environment. See https://docs.docker.com/compose/ for more information about a compose configuration file.
+The entire collection of containers is built to run as a development environment and (or) a production environment. The files `compose-up-development.yml' and `compose-up-production.yml` define the configuration for each environment. See https://docs.docker.com/compose/ for more information about a compose configuration file.
 
 You can specify the configuration file with the `-f` flag, which will result in:
 
-    docker-compose -f docker-compose-development.yml up
+    docker-compose -f compose-up-development.yml up
     
 OR
 
-    docker-compose -f docker-compose-production.yml up
+    docker-compose -f compose-up-production.yml up
     
 When supporting the Makefile you could run:
 

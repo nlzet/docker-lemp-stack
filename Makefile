@@ -1,9 +1,11 @@
 BIN_DOCKER = 'docker'
 BIN_DOCKER_COMPOSE = 'docker-compose'
 
-COMPOSE_FILE_BUILD = 'docker-compose-build.yml'
-COMPOSE_FILE_DEVELOPMENT = 'docker-compose-development.yml'
-COMPOSE_FILE_PRODUCTION = 'docker-compose-production.yml'
+COMPOSE_FILE_BUILD = 'compose-build.yml'
+COMPOSE_FILE_UP_DEVELOPMENT = 'compose-up-development.yml'
+COMPOSE_FILE_UP_PRODUCTION = 'docker-up-production.yml'
+COMPOSE_FILE_BUILD_DEVELOPMENT = 'compose-build-development.yml'
+COMPOSE_FILE_BUILD_PRODUCTION = 'docker-build-production.yml'
 
 CONTAINER_BACKUP = backup
 CONTAINER_DOCKERUI = dockerui
@@ -29,11 +31,17 @@ clear_images:
 build:
 	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_BUILD) build
 
+build_dev:
+	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_BUILD_DEVELOPMENT) up -d
+
+build_prod:
+	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_BUILD_PRODUCTION) up -d
+
 up_dev:
-	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_DEVELOPMENT) up -d
+	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_UP_DEVELOPMENT) up -d
 
 up_prod:
-	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_PRODUCTION) up -d
+	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_UP_PRODUCTION) up -d
 
 backup_container_data:
 	$(BIN_DOCKER) exec -it $(CONTAINER_BACKUP) /opt/backupdata.sh
