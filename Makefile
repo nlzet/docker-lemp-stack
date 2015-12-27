@@ -8,8 +8,6 @@ COMPOSE_FILE_BUILD_DEVELOPMENT = 'compose-build-development.yml'
 COMPOSE_FILE_BUILD_PRODUCTION = 'docker-build-production.yml'
 
 CONTAINER_BACKUP = backup
-CONTAINER_DOCKERUI = dockerui
-CONTAINER_JENKINS = jenkins
 CONTAINER_MAILCATCHER = mailcatcher
 CONTAINER_MARIADB = mariadb
 CONTAINER_MEMCACHED = memcached
@@ -63,12 +61,6 @@ reload_nginx:
 
 connect_backup:
 	$(BIN_DOCKER) exec -it $(CONTAINER_BACKUP) bash
-
-connect_dockerui:
-	$(BIN_DOCKER) exec -it $(CONTAINER_DOCKERUI) bash
-
-connect_jenkins:
-	$(BIN_DOCKER) exec -it $(CONTAINER_JENKINS) bash
 
 connect_mailcatcher:
 	$(BIN_DOCKER) exec -it $(CONTAINER_MAILCATCHER) bash
