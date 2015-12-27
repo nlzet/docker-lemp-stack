@@ -19,6 +19,3 @@ mariadb:
 memcached:
   container_name: memcached
   build: memcached
-#mail:
-#  container_name: mail
-#  build: postfix

@@ -8,7 +8,6 @@ COMPOSE_FILE_PRODUCTION = 'docker-compose-production.yml'
 CONTAINER_BACKUP = backup
 CONTAINER_DOCKERUI = dockerui
 CONTAINER_JENKINS = jenkins
-CONTAINER_MAIL = mail
 CONTAINER_MAILCATCHER = mailcatcher
 CONTAINER_MARIADB = mariadb
 CONTAINER_MEMCACHED = memcached
@@ -62,9 +61,6 @@ connect_dockerui:
 
 connect_jenkins:
 	$(BIN_DOCKER) exec -it $(CONTAINER_JENKINS) bash
-
-connect_mail:
-	$(BIN_DOCKER) exec -it $(CONTAINER_MAIL) bash
 
 connect_mailcatcher:
 	$(BIN_DOCKER) exec -it $(CONTAINER_MAILCATCHER) bash
