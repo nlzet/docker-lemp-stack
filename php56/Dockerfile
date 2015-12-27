@@ -41,8 +41,6 @@ ENV HOME /root
 ADD conf/mods-available/apcu.ini /etc/php5/mods-available/apcu.ini
 ADD conf/mods-available/xdebug.ini /etc/php5/mods-available/xdebug.ini
 ADD conf/mods-available/mailcatcher.ini /etc/php5/mods-available/mailcatcher.ini
-ADD conf/mods-available/development.ini /etc/php5/mods-available/development.ini
-ADD conf/mods-available/production.ini /etc/php5/mods-available/production.ini
 
 RUN \
   php5dismod xdebug && \

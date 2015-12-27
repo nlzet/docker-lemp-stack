@@ -29,6 +29,8 @@ php56:
     PHP_MAILCATCHER_ENABLED: true
   volumes:
     - ./data/config/php/pool56/:/etc/php5/fpm/pool.d
+    - ./data/config/php/ini/development.ini:/etc/php5/mods-available/development.ini
+    - ./data/config/php/ini/production.ini:/etc/php5/mods-available/production.ini
     - ./data/log/php56:/var/log/php
   volumes_from:
     - wwwdata
@@ -46,6 +48,8 @@ php70:
     PHP_MAILCATCHER_ENABLED: true
   volumes:
     - ./data/config/php/pool70/:/etc/php/7.0/fpm/pool.d
+    - ./data/config/php/ini70/development.ini:/etc/php/mods-available/development.ini
+    - ./data/config/php/ini70/production.ini:/etc/php/mods-available/production.ini
     - ./data/log/php70:/var/log/php
   volumes_from:
     - wwwdata
