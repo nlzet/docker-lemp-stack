@@ -37,6 +37,8 @@ php56:
   links:
     - mariadb
     - mailcatcher
+    - redis
+    - memcached
   restart: always
 php70:
   container_name: php70
@@ -56,6 +58,8 @@ php70:
   links:
     - mariadb
     - mailcatcher
+    - redis
+    - memcached
   restart: always
 mariadb:
   container_name: mariadb
