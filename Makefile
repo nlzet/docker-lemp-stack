@@ -17,7 +17,6 @@ CONTAINER_PHP56 = php56
 CONTAINER_PHP70 = php70
 CONTAINER_RABBITMQ = rabbitmq
 CONTAINER_REDIS = redis
-CONTAINER_TEAMSPEAK = teamspeak
 CONTAINER_WWWDATA = wwwdata
 
 clear_all: clear_containers clear_images
@@ -90,9 +89,6 @@ connect_rabbitmq:
 
 connect_redis:
 	$(BIN_DOCKER) exec -it $(CONTAINER_REDIS) bash
-
-connect_teamspeak:
-	$(BIN_DOCKER) exec -it $(CONTAINER_TEAMSPEAK) bash
 
 connect_wwwdata:
 	$(BIN_DOCKER) exec -it $(CONTAINER_WWWDATA) bash
