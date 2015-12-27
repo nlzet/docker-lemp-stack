@@ -56,7 +56,6 @@ RUN \
 RUN \
   ruby -v && \
   gem install --no-ri --no-rdoc mailcatcher && \
-  gem install --no-ri --no-rdoc capifony && \
   gem list
 
 ENV HOME /root
