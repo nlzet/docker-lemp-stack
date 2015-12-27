@@ -1,0 +1,108 @@
+backup:
+  container_name: backup
+  build: backup
+  volumes_from:
+    - wwwdata
+    - nginx
+    - mariadb
+    - php56
+    - php70
+  volumes:
+    - ./data/backups:/var/backups
+  restart: always
+wwwdata:
+  container_name: wwwdata
+  build: wwwdata
+  volumes:
+    - ./data/www:/var/www
+  restart: always
+nginx:
+  container_name: nginx
+  build: nginx
+  volumes:
+    - ./data/config/nginx:/etc/nginx
+    - ./data/log/nginx:/var/log/nginx
+  links:
+    - php56
+    - php70
+  volumes_from:
+    - wwwdata
+  ports:
+    - "80:80"
+    - "443:443"
+  restart: always
+php56:
+  container_name: php56
+  build: php56
+  environment:
+    PHP_ENV: production
+    PHP_APCU_ENABLED: false
+    PHP_XDEBUG_ENABLED: false
+    PHP_MAILCATCHER_ENABLED: false
+  volumes:
+    - ./data/config/php/pool56/:/etc/php5/fpm/pool.d
+    - ./data/config/php/ini56/development.ini:/etc/php5/mods-available/development.ini
+    - ./data/config/php/ini56/production.ini:/etc/php5/mods-available/production.ini
+    - ./data/log/php56:/var/log/php
+  volumes_from:
+    - wwwdata
+  links:
+    - mariadb
+    - mailcatcher
+    - redis
+    - memcached
+  restart: always
+php70:
+  container_name: php70
+  build: php70
+  environment:
+    PHP_ENV: production
+    PHP_APCU_ENABLED: false
+    PHP_XDEBUG_ENABLED: false
+    PHP_MAILCATCHER_ENABLED: false
+  volumes:
+    - ./data/config/php/pool70/:/etc/php/7.0/fpm/pool.d
+    - ./data/config/php/ini70/development.ini:/etc/php/mods-available/development.ini
+    - ./data/config/php/ini70/production.ini:/etc/php/mods-available/production.ini
+    - ./data/log/php70:/var/log/php
+  volumes_from:
+    - wwwdata
+  links:
+    - mariadb
+    - mailcatcher
+    - redis
+    - memcached
+  restart: always
+mariadb:
+  container_name: mariadb
+  build: mariadb
+  volumes:
+    - ./data/config/mariadb/my.cnf:/etc/mysql/my.cnf
+    - ./data/log/mariadb:/var/log/mysql
+    - ./data/mariadb:/var/lib/mysql
+  environment:
+    DB_ADMIN_PASS: pass
+  ports:
+    - "3306:3306"
+  restart: always
+mailcatcher:
+  container_name: mailcatcher
+  image: schickling/mailcatcher
+  ports:
+    - "1025:1025"
+    - "1080:1080"
+  restart: always
+memcached:
+  container_name: memcached
+  build: memcached
+  ports:
+    - "11211:11211"
+  restart: always
+redis:
+  container_name: redis
+  image: redis
+  volumes:
+    - ./data/config/redis/redis.conf:/usr/local/etc/redis/redis.conf
+  ports:
+    - "6379:6379"
+  restart: always
