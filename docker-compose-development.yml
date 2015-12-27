@@ -51,6 +51,7 @@ mariadb:
   container_name: mariadb
   build: mariadb
   volumes:
+    - ./data/config/mariadb/my.cnf:/etc/mysql/my.cnf
     - ./data/log/mariadb:/var/log/mysql
     - ./data/mariadb:/var/lib/mysql
   environment:

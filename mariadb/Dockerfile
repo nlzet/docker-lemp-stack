@@ -24,7 +24,6 @@ RUN \
 ADD my_init.d /etc/my_init.d
 ADD runit/mariadb /etc/service/mariadb/run
 ADD runit/log /etc/service/mariadb/log/run
-ADD configs/my.cnf /etc/mysql/my.cnf
 
 VOLUME ["/var/lib/mysql","/var/log/mysql"]
 
