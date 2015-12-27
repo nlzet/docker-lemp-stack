@@ -1,7 +1,3 @@
-upstream default-php70 {
-    server php70:9001;
-}
-
 server {
     listen 80 default_server;
     server_name _ localhost php70.dev www.php70.dev;
@@ -20,11 +16,11 @@ server {
     }
 
     location ~ \.php$ {
-        # try_files $uri =404;
         fastcgi_pass default-php70;
+        fastcgi_index index.php;
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
         include fastcgi_params;
-        fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_param  HTTPS off;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param HTTPS off;
     }
 }
