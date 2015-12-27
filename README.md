@@ -36,7 +36,62 @@ Docker compose: https://docs.docker.com/compose/install/
 
 ### Makefile
 
-In the root of the project there is a `Makefile`, if you are using an OS that support it, a lot of commands explained below can be ran easily trough the makefile as a shortcut.
+In the root of the project there is a `Makefile`, if you are using an OS that support it, a lot of commands explained below can be ran easily trough the makefile as a shortcut. If you don't support the Makefile you can find each command inside this file. (Variables are defined at the top).
+
+Useful commands:
+    
+    # Start development environment. Will recreate linked containers of new services, using compose-up-development.yml
+    up_dev
+    # The same as up_dev but then for your production environment, using compose-up-production.yml
+    up_prod
+    # Create a backup of the shared containers data in data/backups/
+    backup_container_data
+    # Create a backup of the MariaDB instance in data/backups/
+    backup_database
+    # Create a backup of the wwwdata container volum in data/backups/
+    backup_www
+    # Reload PHP FPM of the php56 service
+    reload_php_56
+    # Reload PHP FPM of the php70 service
+    reload_php_70:
+    # Reload the nginx configuration files (service nginx reload)
+    reload_nginx:
+	
+	# Connect to different containers. (Create a bash shell session inside a container)
+	connect_backup	
+	connect_mailcatcher
+	connect_mariadb
+	connect_memcached
+	connect_nginx
+	connect_php56
+	connect_php70
+	connect_rabbitmq
+	connect_redis
+	connect_wwwdata
+
+Commands for building and developing the services:
+
+    # Stop and remove all containers shown by 'docker ps -a'
+    clear_containers
+    # Remove all stored images shown by 'docker images'
+    clear_images
+    # Will run both 'clear_containers' and 'clear_images"
+    clear_all
+
+clear_containers:
+	$(BIN_DOCKER) stop `$(BIN_DOCKER) ps -a -q` && $(BIN_DOCKER) rm `$(BIN_DOCKER) ps -a -q`
+
+clear_images:
+	$(BIN_DOCKER) rmi `$(BIN_DOCKER) images -q)`
+
+build:
+	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_BUILD) build
+
+build_dev:
+	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_BUILD_DEVELOPMENT) up -d
+
+build_prod:
+	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_BUILD_PRODUCTION) up -d
 
 ### Launching containers
 
@@ -80,4 +135,5 @@ When disabling mailcatcher you can remove the mailcatcher service in your compos
 # Common recipes
 
 [How to disable the php56 or php70 service](docs/recipes/01-disable-php56-or-php70.md)
+
 [Customizing a service](docs/recipes/02-customizing-services.md)
