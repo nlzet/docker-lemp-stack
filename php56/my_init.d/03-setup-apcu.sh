@@ -1,14 +1,15 @@
 #!/bin/bash
 
 echo "================================"
-echo "PHP ENV: ${PHP_ENV}"
-echo "================================"
-echo " "
-
-echo "================================"
 echo "==> APCU"
 echo "================================"
 
-# Only enable manually when needed
-php5dismod apcu
+# Only enable when env variable defined as "true"
+if [ $PHP_APCU_ENABLED = "false" ] || [ $PHP_APCU_ENABLED = "False" ]; then
+    echo "==> Disabling"
+    php5dismod apcu
+else
+    echo "==> Enabling"
+    php5enmod apcu
+fi
 

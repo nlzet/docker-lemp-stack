@@ -5,11 +5,7 @@ echo "PHP ENV: ${PHP_ENV}"
 echo "================================"
 echo " "
 
-echo "================================"
-echo "==> Modus"
-echo "================================"
-
-if [[ $PHP_ENV = "production" ]] ; then
+if [ $PHP_ENV = "production" ] || [ $PHP_ENV = "Production" ] ; then
     echo "==> Enabling production"
     phpdismod -v 7.0 development
     phpenmod -v 7.0 production

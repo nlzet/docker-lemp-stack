@@ -1,13 +1,11 @@
 #!/bin/bash
 
 echo "================================"
-echo "PHP ENV: ${PHP_ENV}"
-echo "================================"
-echo " "
-echo "================================"
 echo "==> Mailcatcher"
 echo "================================"
-if [[ $PHP_ENV = "production" ]] ; then
+
+# Only enable when env variable defined as "true"
+if [ $PHP_MAILCATCHER_ENABLED = "false" ] || [ $PHP_MAILCATCHER_ENABLED = "False" ] ; then
     echo "==> Disabling"
     php5dismod mailcatcher
 else

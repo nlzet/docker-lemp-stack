@@ -24,6 +24,9 @@ php56:
   build: php56
   environment:
     PHP_ENV: development
+    PHP_APCU_ENABLED: false
+    PHP_XDEBUG_ENABLED: true
+    PHP_MAILCATCHER_ENABLED: true
   volumes:
     - ./data/config/php/pool56/:/etc/php5/fpm/pool.d
     - ./data/log/php56:/var/log/php
@@ -38,6 +41,9 @@ php70:
   build: php70
   environment:
     PHP_ENV: development
+    PHP_APCU_ENABLED: false
+    PHP_XDEBUG_ENABLED: true
+    PHP_MAILCATCHER_ENABLED: true
   volumes:
     - ./data/config/php/pool70/:/etc/php/7.0/fpm/pool.d
     - ./data/log/php70:/var/log/php

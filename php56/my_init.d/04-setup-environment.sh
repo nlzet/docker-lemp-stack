@@ -5,11 +5,7 @@ echo "PHP ENV: ${PHP_ENV}"
 echo "================================"
 echo " "
 
-echo "================================"
-echo "==> Modus"
-echo "================================"
-
-if [[ $PHP_ENV = "production" ]] ; then
+if [ $PHP_ENV = "production" ] || [ $PHP_ENV = "Production" ] ; then
     echo "==> Enabling production"
     php5dismod development
     php5enmod production
@@ -19,9 +15,6 @@ else
     php5enmod development
 fi;
 
-echo "================================"
 echo "==> Reloading PHP5-FPM"
-echo "================================"
 service php5-fpm reload
-
 echo "================================"

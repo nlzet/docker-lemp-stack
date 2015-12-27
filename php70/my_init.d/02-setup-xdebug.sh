@@ -1,15 +1,11 @@
 #!/bin/bash
 
 echo "================================"
-echo "PHP ENV: ${PHP_ENV}"
-echo "================================"
-echo " "
-
-echo "================================"
 echo "==> Xdebug"
 echo "================================"
 
-if [[ $PHP_ENV = "production" ]] ; then
+# Only enable when env variable defined as "true"
+if [ $PHP_XDEBUG_ENABLED = "false" ] || [ $PHP_XDEBUG_ENABLED = "False" ] ; then
     echo "==> Disabling"
     phpdismod -v 7.0 xdebug
 else

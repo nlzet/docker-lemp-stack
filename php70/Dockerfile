@@ -119,6 +119,9 @@ RUN \
 
 ENV TERM xterm
 ENV PHP_ENV production
+ENV PHP_APCU_ENABLED false
+ENV PHP_XDEBUG_ENABLED false
+ENV PHP_MAILCATCHER_ENABLED false
 
 # Runit/init
 ADD my_init.d /etc/my_init.d
