@@ -23,6 +23,17 @@ clear_all: clear_containers clear_images
 clear_containers:
 	$(BIN_DOCKER) stop `$(BIN_DOCKER) ps -a -q` && $(BIN_DOCKER) rm `$(BIN_DOCKER) ps -a -q`
 
+pull:
+	$(BIN_DOCKER) pull kreable/$(CONTAINER_BACKUP)
+	$(BIN_DOCKER) pull kreable/$(CONTAINER_MARIADB)
+	$(BIN_DOCKER) pull kreable/$(CONTAINER_MEMCACHED)
+	$(BIN_DOCKER) pull kreable/$(CONTAINER_NGINX)
+	$(BIN_DOCKER) pull kreable/$(CONTAINER_PHP56)
+	$(BIN_DOCKER) pull kreable/$(CONTAINER_PHP70)
+	$(BIN_DOCKER) pull kreable/$(CONTAINER_WWWDATA)
+	$(BIN_DOCKER) pull schickling/mailcatcher
+	$(BIN_DOCKER) pull redis
+
 clear_images:
 	$(BIN_DOCKER) rmi -f `$(BIN_DOCKER) images -q)`
 

@@ -40,6 +40,8 @@ In the root of the project there is a `Makefile`, if you are using an OS that su
 
 Useful commands:
     
+    # Pull all the newest images
+    pull
     # Start development environment. Will recreate linked containers of new services, using compose-up-development.yml
     up_dev
     # The same as up_dev but then for your production environment, using compose-up-production.yml
