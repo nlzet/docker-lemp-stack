@@ -19,9 +19,6 @@ mariadb:
 #memcached:
 #  container_name: memcached
 #  build: memcached
-#redis:
-#  container_name: redis
-#  build: redis
 #mail:
 #  container_name: mail
 #  build: postfix
