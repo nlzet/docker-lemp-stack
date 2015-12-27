@@ -18,6 +18,9 @@ fi
 if [ -d "/var/log/syslog" ]; then
     TAR_FOLDERS="$TAR_FOLDERS /var/log/syslog"
 fi
+if [ -d "/var/log/php" ]; then
+    TAR_FOLDERS="$TAR_FOLDERS /var/log/php"
+fi
 
 echo "=========================================="
 echo "Running new backup"
