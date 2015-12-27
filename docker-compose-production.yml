@@ -48,7 +48,6 @@ php56:
     - wwwdata
   links:
     - mariadb
-    - mailcatcher
     - redis
     - memcached
   restart: always
@@ -69,7 +68,6 @@ php70:
     - wwwdata
   links:
     - mariadb
-    - mailcatcher
     - redis
     - memcached
   restart: always
@@ -84,13 +82,6 @@ mariadb:
     DB_ADMIN_PASS: pass
   ports:
     - "3306:3306"
-  restart: always
-mailcatcher:
-  container_name: mailcatcher
-  image: schickling/mailcatcher
-  ports:
-    - "1025:1025"
-    - "1080:1080"
   restart: always
 memcached:
   container_name: memcached
