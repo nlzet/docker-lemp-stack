@@ -37,6 +37,15 @@ up_dev:
 up_prod:
 	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_PRODUCTION) up -d
 
+backup_container_data:
+	$(BIN_DOCKER) exec -it $(CONTAINER_BACKUP) /opt/backupdata.sh
+
+backup_database:
+	$(BIN_DOCKER) exec -it $(CONTAINER_BACKUP) /opt/backupdatabase.sh
+
+backup_www:
+	$(BIN_DOCKER) exec -it $(CONTAINER_BACKUP) /opt/backupwww.sh
+
 reload_php_56:
 	$(BIN_DOCKER) exec -it $(CONTAINER_PHP56) service php5-fpm reload
 

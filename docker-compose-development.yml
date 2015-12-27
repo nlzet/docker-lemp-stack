@@ -1,3 +1,15 @@
+backup:
+  container_name: backup
+  build: backup
+  volumes_from:
+    - wwwdata
+    - nginx
+    - mariadb
+    - php56
+    - php70
+  volumes:
+    - ./data/backups:/var/backups
+  restart: always
 wwwdata:
   container_name: wwwdata
   build: wwwdata
