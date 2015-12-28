@@ -35,10 +35,10 @@ php56:
   container_name: php56
   image: kreable/php56
   environment:
-    PHP_ENV: production
-    PHP_APCU_ENABLED: false
-    PHP_XDEBUG_ENABLED: false
-    PHP_MAILCATCHER_ENABLED: false
+    PHP_ENV: 'production'
+    PHP_APCU_ENABLED: 'false'
+    PHP_XDEBUG_ENABLED: 'false'
+    PHP_MAILCATCHER_ENABLED: 'false'
   volumes:
     - ./data/config/php/pool56/:/etc/php5/fpm/pool.d
     - ./data/config/php/ini56/development.ini:/etc/php5/mods-available/development.ini
@@ -55,10 +55,10 @@ php70:
   container_name: php70
   image: kreable/php70
   environment:
-    PHP_ENV: production
-    PHP_APCU_ENABLED: false
-    PHP_XDEBUG_ENABLED: false
-    PHP_MAILCATCHER_ENABLED: false
+    PHP_ENV: 'production'
+    PHP_APCU_ENABLED: 'false'
+    PHP_XDEBUG_ENABLED: 'false'
+    PHP_MAILCATCHER_ENABLED: 'false'
   volumes:
     - ./data/config/php/pool70/:/etc/php/7.0/fpm/pool.d
     - ./data/config/php/ini70/development.ini:/etc/php/mods-available/development.ini

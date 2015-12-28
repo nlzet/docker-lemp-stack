@@ -2,7 +2,7 @@ BIN_DOCKER = 'docker'
 BIN_DOCKER_COMPOSE = 'docker-compose'
 
 COMPOSE_FILE_BUILD = 'compose-build.yml'
-COMPOSE_FILE_UP_DEVELOPMENT = 'compose-up-development.yml'
+COMPOSE_FILE_UP_DEVELOPMENT = 'compose-up-custom.yml'
 COMPOSE_FILE_UP_PRODUCTION = 'docker-up-production.yml'
 COMPOSE_FILE_BUILD_DEVELOPMENT = 'compose-build-development.yml'
 COMPOSE_FILE_BUILD_PRODUCTION = 'docker-build-production.yml'
