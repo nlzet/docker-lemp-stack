@@ -115,13 +115,13 @@ Currently there are a few changes that are supported through config files and mo
 Both containers support 4 environment variables that can be filled throug your compose configuration file:
 
     # Set this to `true` to enable APCu cache, and to `false` to disable it.
-    PHP_APCU_ENABLED: false
+    PHP_APCU_ENABLED: 'false'
     # Set this to `true` to enable XDebug, and to `false` to disable it. Typically enabled only for development
-    PHP_XDEBUG_ENABLED: true
+    PHP_XDEBUG_ENABLED: 'true'
     # Set this to `true` to enable mailcatcher, and to `false` to disable it. Typically enabled only for development
-    PHP_MAILCATCHER_ENABLED: true
+    PHP_MAILCATCHER_ENABLED: 'true'
     # Set this to `development` to load the mounted development.ini file, and to `production` to load the mounted production.ini file.
-    PHP_ENV: development
+    PHP_ENV: 'development'
 
 When disabling mailcatcher you can remove the mailcatcher service in your compose file, with the links to the mailcatcher service from other services as well (like in the production compose configuration file).
 
