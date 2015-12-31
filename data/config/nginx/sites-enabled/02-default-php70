@@ -1,0 +1,27 @@
+server {
+    listen 80 default_server;
+    server_name _ localhost php70.dev www.php70.dev;
+
+    index index.php index.html;
+    root /var/www;
+
+    charset utf-8;
+
+    access_log /var/log/nginx/default-php70-access.log;
+    error_log  /var/log/nginx/default-php70-error.log error;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location ~ \.php$ {
+        # try_files $uri =404;
+        fastcgi_pass php70;
+        fastcgi_index index.php;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+        fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param  HTTPS off;
+    }
+}
+
