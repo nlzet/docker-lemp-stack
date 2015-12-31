@@ -1,6 +1,6 @@
-upstream default-php56 {
-    server php56:9002;
-}
 upstream default-php70 {
     server php70:9001;
+}
+upstream default-php56 {
+    server php56:9002;
 }
