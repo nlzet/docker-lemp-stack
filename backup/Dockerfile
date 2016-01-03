@@ -15,7 +15,7 @@ RUN \
 # Backup the www folder every sunday at 3am
 RUN \
     echo "0   */12    * * *    root /opt/backupdata.sh      >> /var/log/cron.log 2>&1" >  /etc/cron.d/backups && \
-    echo "0   */6     * * *    root /opt/backupdatabase.sh  >> /var/log/cron.log 2>&1" >  /etc/cron.d/backups && \
+    echo "0   */6     * * *    root /opt/backupdatabase.sh  >> /var/log/cron.log 2>&1" >> /etc/cron.d/backups && \
     echo "0   3       * * 0    root /opt/backupwww.sh       >> /var/log/cron.log 2>&1" >> /etc/cron.d/backups
 
 ENV TERM xterm
