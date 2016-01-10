@@ -55,8 +55,7 @@ RUN \
 # Install ruby dependencies
 RUN \
   ruby -v && \
-  gem install --no-ri --no-rdoc mailcatcher && \
-  gem install --no-ri --no-rdoc capifony && \
+  gem install --no-ri --no-rdoc mailcatcher capistrano capistrano-symfony && \
   gem list
 
 ENV HOME /root
