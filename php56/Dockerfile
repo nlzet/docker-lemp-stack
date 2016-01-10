@@ -31,7 +31,7 @@ RUN \
 # Install ruby dependencies
 RUN \
   ruby -v && \
-  gem install --no-ri --no-rdoc mailcatcher capistrano capistrano-symfony && \
+  gem install --no-ri --no-rdoc mailcatcher capistrano capistrano-symfony bundler && \
   gem list
 
 ENV HOME /root
