@@ -110,6 +110,11 @@ RUN \
   sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.0/fpm/php-fpm.conf
 
 RUN \
+  sudo curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony && \
+  sudo chmod a+x /usr/local/bin/symfony && \
+  symfony --version
+
+RUN \
   apt-get clean && \
   apt-get autoremove -y && \
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
