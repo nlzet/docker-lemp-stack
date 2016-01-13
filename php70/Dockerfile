@@ -66,9 +66,9 @@ ADD conf/mods-available/xdebug.ini /etc/php/mods-available/xdebug.ini
 ADD conf/mods-available/mailcatcher.ini /etc/php/mods-available/mailcatcher.ini
 
 RUN \
-  phpdismod -v 7.0 xdebug && \
-  phpdismod -v 7.0 mailcatcher && \
-  phpdismod -v 7.0 apcu
+  phpdismod -s fpm -v 7.0 xdebug && \
+  phpdismod -s fpm -v 7.0 mailcatcher && \
+  phpdismod -s ALL -v 7.0 apcu
 
 # Create php pid location
 RUN \
