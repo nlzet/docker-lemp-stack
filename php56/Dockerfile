@@ -13,7 +13,7 @@ RUN \
   add-apt-repository -y ppa:brightbox/ruby-ng && \
   apt-get update && \
   apt-get dist-upgrade -y && \
-  apt-get install -y php5-cli php5-fpm php5-mysql php5-pgsql php5-sqlite php5-curl php5-gd php5-gmp php5-mcrypt php5-memcached php5-imagick php5-intl php-pear php5-dev php5-xsl php5-imap php5-memcache php5-memcached php5-ldap xvfb libsqlite3-dev ruby2.2 ruby2.2-dev libxext6 xfonts-75dpi fontconfig libxrender1 xfonts-base && \
+  apt-get install -y php5-cli php5-fpm php5-mysql php5-pgsql php5-sqlite php5-curl php5-gd php5-gmp php5-mcrypt php5-intl php5-dev php5-xsl php5-imap php5-ldap php5-imagick php5-memcache php5-memcached php-pear xvfb libsqlite3-dev ruby2.2 ruby2.2-dev libxext6 xfonts-75dpi fontconfig libxrender1 xfonts-base && \
   yes '' | pecl install xdebug && \
   yes '' | pecl install apcu-4.0.7
 
