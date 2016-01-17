@@ -7,12 +7,12 @@ echo " "
 
 if [ $PHP_ENV = "production" ] || [ $PHP_ENV = "Production" ] ; then
     echo "==> Enabling production"
-    phpdismod -v 7.0 development
-    phpenmod -v 7.0 production
+    phpdismod -s ALL -v 7.0 development
+    phpenmod -s ALL -v 7.0 production
 else
     echo "==> Enabling development"
-    phpdismod -v 7.0 production
-    phpenmod -v 7.0 development
+    phpdismod -s ALL -v 7.0 production
+    phpenmod -s ALL -v 7.0 development
 fi;
 
 echo "================================"
