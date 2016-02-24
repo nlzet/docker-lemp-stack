@@ -5,7 +5,7 @@ COMPOSE_FILE_BUILD = 'compose-build.yml'
 COMPOSE_FILE_UP_DEVELOPMENT = 'compose-up-development.yml'
 COMPOSE_FILE_UP_PRODUCTION = 'compose-up-production.yml'
 COMPOSE_FILE_BUILD_DEVELOPMENT = 'compose-build-development.yml'
-COMPOSE_FILE_BUILD_PRODUCTION = 'docker-build-production.yml'
+COMPOSE_FILE_BUILD_PRODUCTION = 'compose-build-production.yml'
 
 CONTAINER_BACKUP = backup
 CONTAINER_MAILCATCHER = mailcatcher
