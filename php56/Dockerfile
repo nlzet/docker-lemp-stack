@@ -7,6 +7,11 @@ RUN \
   apt-get update && \  
   rm -f /etc/service/sshd/down && \
   locale-gen en_US.UTF-8 && \
+  locale-gen nl_BE.UTF-8 && \
+  locale-gen nl_NL.UTF-8 && \
+  locale-gen de_DE.UTF-8 && \
+  locale-gen fr_FR.UTF-8 && \
+  dpkg-reconfigure locales && \
   export LANG=en_US.UTF-8 && \
   apt-get install -y nano wget curl python htop git locate zip unzip telnet ant zsh python-software-properties software-properties-common build-essential libpcre3-dev && \
   add-apt-repository -y ppa:ondrej/php5-5.6 && \
