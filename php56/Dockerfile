@@ -119,4 +119,7 @@ ADD runit/php /etc/service/php/run
 EXPOSE 9000
 EXPOSE 22
 
+VOLUME /app
+WORKDIR /app
+
 CMD ["/sbin/my_init"]
