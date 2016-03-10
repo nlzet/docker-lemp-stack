@@ -1,4 +1,4 @@
-FROM kreable/php56
+FROM kreable/php70
 
 USER www-data
 
