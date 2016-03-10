@@ -13,14 +13,41 @@ RUN \
   locale-gen fr_FR.UTF-8 && \
   dpkg-reconfigure locales && \
   export LANG=en_US.UTF-8 && \
-  apt-get install -y nano wget curl python htop git locate zip unzip telnet ant zsh python-software-properties software-properties-common build-essential libpcre3-dev && \
-  add-apt-repository -y ppa:ondrej/php-7.0 && \
+  apt-get install -y nano wget curl python htop git locate zip unzip telnet zsh python-software-properties software-properties-common build-essential libpcre3-dev && \
+  add-apt-repository -y ppa:ondrej/php && \
   add-apt-repository -y ppa:brightbox/ruby-ng && \
   apt-get update && \
   apt-get dist-upgrade -y && \
-  apt-get install -y php7.0-cli php7.0-fpm php7.0-mysql php7.0-pgsql php7.0-sqlite php7.0-curl php7.0-gd php7.0-gmp php7.0-mcrypt php7.0-intl php7.0-dev php7.0-xsl php7.0-imap php7.0-ldap php-memcached php-pear xvfb libsqlite3-dev ruby2.2 ruby2.2-dev libxext6 xfonts-75dpi fontconfig libxrender1 xfonts-base && \
-  yes '' | pecl install xdebug-2.4.0RC3 && \
-  yes '' | pecl install apcu
+  apt-get install -y php7.0-cli php7.0-fpm php7.0-mysql php7.0-pgsql php7.0-sqlite php7.0-curl php7.0-gd php7.0-gmp php7.0-mcrypt php7.0-intl php7.0-dev php7.0-xsl php7.0-imap php7.0-ldap php7.0-xml php-memcached php-pear xvfb libsqlite3-dev ruby2.2 ruby2.2-dev libxext6 xfonts-75dpi fontconfig libxrender1 xfonts-base
+
+RUN \
+  echo 'Installing Xdebug' && \
+  wget http://xdebug.org/files/xdebug-2.4.0rc4.tgz && \
+  tar xzf xdebug-2.4.0rc4.tgz && \
+  cd xdebug-2.4.0RC4/ && \
+  phpize && \
+  ./configure --with-php-config=/usr/bin/php-config && \
+  make && \
+  export TEST_PHP_ARGS='-n' && \
+  make test && \
+  make install && \
+  cd ..
+# RUN wget https://xdebug.org/files/xdebug-2.4.0rc4.tgz && tar -xf xdebug-2.4.0rc4.tgz
+# RUN cd xdebug-2.4.0RC4
+# RUN phpize
+# RUN ./configure && make && make install
+
+RUN \
+  echo 'Installing APCU' && \
+  git clone https://github.com/krakjoe/apcu && \
+  cd apcu && \
+  phpize && \
+  ./configure --with-php-config=/usr/bin/php-config && \
+  make && \
+  export TEST_PHP_ARGS='-n' && \
+  make test && \
+  make install && \
+  cd ..
 
 # Fix php session dir and error log
 RUN \
