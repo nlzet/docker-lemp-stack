@@ -1,7 +1,8 @@
 FROM phusion/baseimage:latest
 
-ENV \
-  DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND noninteractive
+ENV XDEBUG_VERSION xdebug-2.4.0rc4.tgz
+ENV APCU_REPO https://github.com/krakjoe/apcu
 
 RUN \
   apt-get update && \  
@@ -13,7 +14,7 @@ RUN \
   locale-gen fr_FR.UTF-8 && \
   dpkg-reconfigure locales && \
   export LANG=en_US.UTF-8 && \
-  apt-get install -y nano wget curl python htop git locate zip unzip telnet zsh python-software-properties software-properties-common build-essential libpcre3-dev && \
+  apt-get install -y nano wget curl python htop git locate zip unzip telnet zsh python-software-properties software-properties-common build-essential libpcre3-dev nodejs npm && \
   add-apt-repository -y ppa:ondrej/php && \
   add-apt-repository -y ppa:brightbox/ruby-ng && \
   apt-get update && \
@@ -22,24 +23,22 @@ RUN \
 
 RUN \
   echo 'Installing Xdebug' && \
-  wget http://xdebug.org/files/xdebug-2.4.0rc4.tgz && \
-  tar xzf xdebug-2.4.0rc4.tgz && \
-  cd xdebug-2.4.0RC4/ && \
+  wget http://xdebug.org/files/$XDEBUG_VERSION -O xdebug.tgz && \
+  tar xzf xdebug.tgz && \
+  rm -f xdebug.tgz && \
+  cd xdebug-*/ && \
   phpize && \
   ./configure --with-php-config=/usr/bin/php-config && \
   make && \
   export TEST_PHP_ARGS='-n' && \
   make test && \
   make install && \
-  cd ..
-# RUN wget https://xdebug.org/files/xdebug-2.4.0rc4.tgz && tar -xf xdebug-2.4.0rc4.tgz
-# RUN cd xdebug-2.4.0RC4
-# RUN phpize
-# RUN ./configure && make && make install
+  cd .. && \
+  rm -Rf xdebug-*/
 
 RUN \
   echo 'Installing APCU' && \
-  git clone https://github.com/krakjoe/apcu && \
+  git clone $APCU_REPO && \
   cd apcu && \
   phpize && \
   ./configure --with-php-config=/usr/bin/php-config && \
@@ -47,7 +46,8 @@ RUN \
   export TEST_PHP_ARGS='-n' && \
   make test && \
   make install && \
-  cd ..
+  cd .. && \
+  rm -Rf apcu/
 
 # Fix php session dir and error log
 RUN \
@@ -96,6 +96,13 @@ RUN \
   php -v && \
   phpunit --version && \
   phing -v
+
+# Npm + Bower + grunt
+RUN \
+    npm install -g bower grunt grunt-cli && \
+    ln -s /usr/bin/nodejs /usr/bin/node && \
+    bower -version && \
+    grunt --version
 
 # WKHTMLTOPDF
 RUN \
