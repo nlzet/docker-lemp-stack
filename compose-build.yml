@@ -6,8 +6,12 @@ nginx:
   build: nginx
 php56:
   build: php56
+php56cli:
+  build: php56cli
 php70:
   build: php70
+php70cli:
+  build: php70cli
 mariadb:
   build: mariadb
 memcached:
