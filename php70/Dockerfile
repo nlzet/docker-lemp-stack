@@ -103,6 +103,7 @@ RUN \
     ln -s /usr/bin/nodejs /usr/bin/node && \
     bower -version && \
     grunt --version
+RUN chown -R www-data ~/.npm
 
 # WKHTMLTOPDF
 RUN \
