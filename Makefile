@@ -4,8 +4,6 @@ BIN_DOCKER_COMPOSE = 'docker-compose'
 COMPOSE_FILE_BUILD = 'compose-build.yml'
 COMPOSE_FILE_UP_DEVELOPMENT = 'compose-up-development.yml'
 COMPOSE_FILE_UP_PRODUCTION = 'compose-up-production.yml'
-COMPOSE_FILE_BUILD_DEVELOPMENT = 'compose-build-development.yml'
-COMPOSE_FILE_BUILD_PRODUCTION = 'compose-build-production.yml'
 
 CONTAINER_BACKUP = backup
 CONTAINER_MAILCATCHER = mailcatcher
@@ -28,24 +26,13 @@ clear_containers:
 clear_images:
 	$(BIN_DOCKER) rmi -f `$(BIN_DOCKER) images -q)`
 
-pull_build:
+pull:
 	$(BIN_DOCKER) pull phusion/baseimage:latest
 	$(BIN_DOCKER) pull $(CONTAINER_REDIS)
-
-pull_dev:
-	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_UP_DEVELOPMENT) pull
-
-pull_prod:
 	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_UP_PRODUCTION) pull
 
 build:
 	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_BUILD) build
-
-build_dev:
-	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_BUILD_DEVELOPMENT) up -d
-
-build_prod:
-	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_BUILD_PRODUCTION) up -d
 
 up_dev:
 	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_UP_DEVELOPMENT) up -d

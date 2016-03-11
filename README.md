@@ -81,10 +81,6 @@ Commands for building and developing the services:
     clear_all
     # Use the compose build file to build all containers, even unused containers for specific environments
     build
-    # Build the services defined by the development compose config
-    build_dev
-    # Build the services defined by the production compose config
-    build_prod
 
 ### Launching containers
 
