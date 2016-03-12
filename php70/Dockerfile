@@ -14,7 +14,7 @@ RUN \
   locale-gen fr_FR.UTF-8 && \
   dpkg-reconfigure locales && \
   export LANG=en_US.UTF-8 && \
-  apt-get install -y nano wget curl python htop git locate zip unzip telnet zsh python-software-properties software-properties-common build-essential libpcre3-dev nodejs npm && \
+  apt-get install -y nano wget curl python htop git locate zip unzip telnet zsh python-software-properties software-properties-common build-essential libpcre3-dev nodejs npm ant && \
   add-apt-repository -y ppa:ondrej/php && \
   add-apt-repository -y ppa:brightbox/ruby-ng && \
   apt-get update && \
