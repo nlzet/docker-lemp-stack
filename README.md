@@ -108,7 +108,7 @@ Currently there are a few changes that are supported through config files and mo
 
 ## PHP56 and PHP70
 
-Both containers support 4 environment variables that can be filled throug your compose configuration file:
+Both containers support 4 environment variables that can be filled through your compose configuration file:
 
     # Set this to `true` to enable APCu cache, and to `false` to disable it.
     PHP_APCU_ENABLED: 'false'
