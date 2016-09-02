@@ -84,7 +84,7 @@ Commands for building and developing the services:
 
 ### Launching containers
 
-The entire collection of containers is built to run as a development environment and (or) a production environment. The files `compose-up-development.yml' and `compose-up-production.yml` define the configuration for each environment. See https://docs.docker.com/compose/ for more information about a compose configuration file.
+The entire collection of containers is built to run as a development environment and (or) a production environment. The files `compose-up-development.yml` and `compose-up-production.yml` define the configuration for each environment. See https://docs.docker.com/compose/ for more information about a compose configuration file.
 
 You can specify the configuration file with the `-f` flag, which will result in:
 
