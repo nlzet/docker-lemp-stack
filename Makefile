@@ -24,7 +24,7 @@ clear_containers:
 	$(BIN_DOCKER) stop `$(BIN_DOCKER) ps -a -q` && $(BIN_DOCKER) rm `$(BIN_DOCKER) ps -a -q`
 
 clear_images:
-	$(BIN_DOCKER) rmi -f `$(BIN_DOCKER) images -q)`
+	$(BIN_DOCKER) rmi -f `$(BIN_DOCKER) images -q`
 
 pull:
 	$(BIN_DOCKER) pull phusion/baseimage:latest
