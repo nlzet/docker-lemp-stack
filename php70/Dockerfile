@@ -1,4 +1,4 @@
-FROM phusion/baseimage:latest
+FROM phusion/baseimage:0.9.18
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV XDEBUG_VERSION xdebug-2.4.0rc4.tgz
