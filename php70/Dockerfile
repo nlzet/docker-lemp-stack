@@ -19,7 +19,7 @@ RUN \
   add-apt-repository -y ppa:brightbox/ruby-ng && \
   apt-get update && \
   apt-get dist-upgrade -y && \
-  apt-get install -y php7.0-cli php7.0-fpm php7.0-mysql php7.0-pgsql php7.0-sqlite php7.0-curl php7.0-gd php7.0-gmp php7.0-mcrypt php7.0-intl php7.0-dev php7.0-xsl php7.0-imap php7.0-ldap php7.0-xml php7.0-bcmath php7.0-mbstring php7.0-soap php-memcached php-pear xvfb libsqlite3-dev ruby2.2 ruby2.2-dev libxext6 xfonts-75dpi fontconfig libxrender1 xfonts-base
+  apt-get install -y php7.0-cli php7.0-fpm php7.0-mysql php7.0-pgsql php7.0-sqlite php7.0-curl php7.0-gd php7.0-gmp php7.0-mcrypt php7.0-intl php7.0-dev php7.0-xsl php7.0-imap php7.0-ldap php7.0-xml php7.0-bcmath php7.0-mbstring php7.0-soap php-memcached php-pear xvfb libsqlite3-dev ruby2.2 ruby2.2-dev libxext6 xfonts-75dpi fontconfig libxrender1 xfonts-base libssh2-1-dev libssh2-1
 
 RUN \
   echo 'Installing Xdebug' && \
@@ -49,6 +49,10 @@ RUN \
   cd .. && \
   rm -Rf apcu/
 
+# SSH2
+RUN \
+  yes | pecl install ssh2-1.0
+
 # Fix php session dir and error log
 RUN \
   mkdir -p /var/lib/php/sessions && \
@@ -69,14 +73,16 @@ RUN \
 ENV HOME /root
 
 # PHP module configs
-ADD conf/mods-available/apcu.ini /etc/php/mods-available/apcu.ini
-ADD conf/mods-available/xdebug.ini /etc/php/mods-available/xdebug.ini
-ADD conf/mods-available/mailcatcher.ini /etc/php/mods-available/mailcatcher.ini
+ADD conf/mods-available/apcu.ini /etc/php/7.0/mods-available/apcu.ini
+ADD conf/mods-available/xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
+ADD conf/mods-available/mailcatcher.ini /etc/php/7.0/mods-available/mailcatcher.ini
+ADD conf/mods-available/ssh2.ini /etc/php/7.0/mods-available/ssh2.ini
 
 RUN \
   phpdismod -s fpm -v 7.0 xdebug && \
   phpdismod -s fpm -v 7.0 mailcatcher && \
-  phpdismod -s ALL -v 7.0 apcu
+  phpdismod -s ALL -v 7.0 apcu && \
+  phpenmod -s cli -v 7.0 ssh2
 
 # Create php pid location
 RUN \
