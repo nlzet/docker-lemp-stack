@@ -18,6 +18,9 @@ CONTAINER_RABBITMQ = rabbitmq
 CONTAINER_REDIS = redis
 CONTAINER_WWWDATA = wwwdata
 
+.PHONY: default
+default: build ;
+
 clear_all: clear_containers clear_images
 
 clear_containers:
